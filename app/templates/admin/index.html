@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Panel de Administración</h1>
+        <a href="{{ url_for('admin.new_tournament') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Nuevo Torneo
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Torneos</h2>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 80px">Imagen</th>
+                        <th>Nombre</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tournament in tournaments %}
+                    <tr>
+                        <td>
+                            {% if tournament.image %}
+                                <img src="{{ url_for('static', filename=tournament.image) }}" 
+                                     class="tournament-thumbnail" 
+                                     alt="Miniatura del torneo">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='img/default_tournament.jpg') }}"
+                                     class="tournament-thumbnail"
+                                     alt="Miniatura por defecto">
+                            {% endif %}
+                        </td>
+                        <td>{{ tournament.name }}</td>
+                        <td>{{ tournament.start_date.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ tournament.end_date.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            {% if tournament.status == 'active' %}
+                                <span class="badge bg-success">Activo</span>
+                            {% elif tournament.status == 'inactive' %}
+                                <span class="badge bg-secondary">Inactivo</span>
+                            {% elif tournament.status == 'upcoming' %}
+                                <span class="badge bg-info">Próximo</span>
+                            {% else %}
+                                <span class="badge bg-dark">Finalizado</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group">
+                                <a href="{{ url_for('admin.tournament_players', id=tournament.id) }}" 
+                                   class="btn btn-sm btn-info">
+                                    <i class="fas fa-users me-1"></i>Jugadores
+                                </a>
+                                <a href="{{ url_for('admin.edit_tournament', id=tournament.id) }}" 
+                                   class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit me-1"></i>Editar
+                                </a>
+                                <button type="button" 
+                                        class="btn btn-sm btn-danger" 
+                                        onclick="confirmDelete('{{ tournament.id }}')">
+                                    <i class="fas fa-trash me-1"></i>Eliminar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este torneo?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function confirmDelete(tournamentId) {
+    const modal = document.getElementById('deleteModal');
+    const deleteForm = document.getElementById('deleteForm');
+    deleteForm.action = `/admin/tournament/${tournamentId}/delete`;
+    const bsModal = new bootstrap.Modal(modal);
+    bsModal.show();
+}
+</script>
+{% endblock %}

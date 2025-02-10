@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Resumen General -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Torneos</p>
+                                <h5 class="font-weight-bolder">{{ total_tournaments }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-primary shadow-primary text-center rounded-circle">
+                                <i class="fas fa-trophy text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Jugadores</p>
+                                <h5 class="font-weight-bolder">{{ total_players }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-success shadow-success text-center rounded-circle">
+                                <i class="fas fa-users text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Promedio Jugadores/Torneo</p>
+                                <h5 class="font-weight-bolder">{{ avg_players }}</h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-info shadow-info text-center rounded-circle">
+                                <i class="fas fa-chart-line text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row mb-4">
+        <!-- Inscripciones por Torneo -->
+        <div class="col-lg-8 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Inscripciones por Torneo</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="tournamentChart" style="height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Distribución por Categorías -->
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Distribución por Categorías</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart" style="height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Torneos y Categorías Populares -->
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Top 3 Torneos por Inscripciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Torneo</th>
+                                    <th>Inscripciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tournament in top_tournaments %}
+                                <tr>
+                                    <td>{{ tournament.name }}</td>
+                                    <td>{{ tournament.player_count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Categorías más Populares por Torneo</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Torneo</th>
+                                    <th>Categoría</th>
+                                    <th>Inscripciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tournament, data in popular_categories.items() %}
+                                <tr>
+                                    <td>{{ tournament }}</td>
+                                    <td>{{ data.category }}</td>
+                                    <td>{{ data.count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Datos para el gráfico de torneos
+    const tournamentData = {
+        labels: [{% for stat in tournament_stats %}'{{ stat.name }}',{% endfor %}],
+        datasets: [{
+            label: 'Número de Inscripciones',
+            data: [{% for stat in tournament_stats %}{{ stat.player_count }},{% endfor %}],
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    // Datos para el gráfico de categorías
+    const categoryData = {
+        labels: [{% for stat in category_stats %}'{{ stat.category }}',{% endfor %}],
+        datasets: [{
+            data: [{% for stat in category_stats %}{{ stat.count }},{% endfor %}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Configuración del gráfico de torneos
+    new Chart(document.getElementById('tournamentChart'), {
+        type: 'bar',
+        data: tournamentData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Configuración del gráfico de categorías
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'doughnut',
+        data: categoryData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+});
+</script>
+{% endblock %}

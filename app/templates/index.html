@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content animate-fade-in">
+        <h1>Linense Tenis Club</h1>
+        <p class="lead">Inscríbete en nuestros torneos y compite con los mejores</p>
+    </div>
+</section>
+
+<section class="tournament-section">
+    <div class="container">
+        {% if tournament and tournament.status == 'active' %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="tournament-card animate-fade-in">
+                        {% if tournament.image %}
+                            <img src="{{ url_for('static', filename=tournament.image) }}" 
+                                 class="card-img-top tournament-image" 
+                                 alt="Cartel del torneo">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='img/default_tournament.jpg') }}"
+                                 class="card-img-top tournament-image"
+                                 alt="Cartel por defecto">
+                        {% endif %}
+                        <div class="tournament-header">
+                            <h2 class="mb-0">{{ tournament.name }}</h2>
+                            <p class="mt-2 mb-0">
+                                <i class="fas fa-calendar-alt me-2"></i>
+                                {{ tournament.start_date.strftime('%d/%m/%Y') }} - {{ tournament.end_date.strftime('%d/%m/%Y') }}
+                            </p>
+                        </div>
+                        <div class="tournament-body">
+                            <h3 class="text-center mb-4">Formulario de Inscripción</h3>
+                            <form method="POST" action="{{ url_for('main.register') }}" class="needs-validation" novalidate>
+                                {{ form.csrf_token }}
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.first_name.label(class="form-label") }}
+                                            {{ form.first_name(class="form-control", placeholder="Tu nombre") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.last_name.label(class="form-label") }}
+                                            {{ form.last_name(class="form-control", placeholder="Tus apellidos") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.license_number.label(class="form-label") }}
+                                            {{ form.license_number(class="form-control", placeholder="Número de licencia") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.email.label(class="form-label") }}
+                                            {{ form.email(class="form-control", type="email", placeholder="tu@email.com") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.phone.label(class="form-label") }}
+                                            {{ form.phone(class="form-control", placeholder="Teléfono de contacto") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {{ form.category.label(class="form-label") }}
+                                            {{ form.category(class="form-select") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            {{ form.notes.label(class="form-label") }}
+                                            {{ form.notes(class="form-control", rows="3", placeholder="Indica cualquier incidencia o comentario relevante") }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-paper-plane me-2"></i>Inscribirse al Torneo
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No hay torneos activos en este momento. Por favor, vuelva a consultar más tarde.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="features-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Próximos Torneos</h2>
+        <div class="row">
+            {% if upcoming_tournaments %}
+                {% for tournament in upcoming_tournaments %}
+                    <div class="col-md-4 mb-4">
+                        <div class="tournament-preview-card">
+                            <div class="card h-100">
+                                {% if tournament.image %}
+                                    <img src="{{ url_for('static', filename=tournament.image) }}" 
+                                         class="card-img-top tournament-image" 
+                                         alt="Cartel del torneo">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='img/default_tournament.jpg') }}"
+                                         class="card-img-top tournament-image"
+                                         alt="Cartel por defecto">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h3 class="card-title">{{ tournament.name }}</h3>
+                                    <div class="tournament-dates mb-3">
+                                        <i class="fas fa-calendar-alt me-2"></i>
+                                        <span>{{ tournament.start_date.strftime('%d/%m/%Y') }} - {{ tournament.end_date.strftime('%d/%m/%Y') }}</span>
+                                    </div>
+                                    <div class="tournament-categories mb-3">
+                                        <i class="fas fa-users me-2"></i>
+                                        <span>Todas las categorías</span>
+                                    </div>
+                                    <div class="tournament-status">
+                                        <span class="badge bg-warning">Próximamente</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No hay torneos programados próximamente.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Validación del formulario
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}

@@ -1,0 +1,505 @@
+/* Estilos generales */
+body {
+    background-color: #f5f7fa;
+}
+
+.tournament-header {
+    background: #2c3e50;
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tournament-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tournament-actions {
+    gap: 1rem;
+}
+
+.btn-modern {
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-modern.btn-excel {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-modern.btn-excel:hover {
+    background: #219a52;
+}
+
+.btn-modern.btn-back {
+    background: #34495e;
+    color: white;
+}
+
+.btn-modern.btn-back:hover {
+    background: #2c3e50;
+}
+
+/* Contenedor de categorías */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+/* Tarjeta de categoría */
+.category-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.category-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 1.5rem;
+    position: relative;
+}
+
+.category-header.female {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.category-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-count {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+}
+
+/* Colores por categoría */
+.category-benjamin .category-header {
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+    color: white;
+}
+
+.category-alevin .category-header {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    color: white;
+}
+
+.category-infantil .category-header {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    color: white;
+}
+
+.category-cadete .category-header {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    color: white;
+}
+
+.category-absolute .category-header {
+    background: linear-gradient(135deg, #F44336, #D32F2F);
+    color: white;
+}
+
+/* Badges por categoría */
+.category-benjamin .badge {
+    background-color: #388E3C !important;
+}
+
+.category-alevin .badge {
+    background-color: #1976D2 !important;
+}
+
+.category-infantil .badge {
+    background-color: #7B1FA2 !important;
+}
+
+.category-cadete .badge {
+    background-color: #F57C00 !important;
+}
+
+.category-absolute .badge {
+    background-color: #D32F2F !important;
+}
+
+/* Lista de jugadores */
+.players-header {
+    background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.category-section {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.category-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    background: #f8f9fa;
+}
+
+.category-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge-count {
+    font-size: 0.9rem;
+    padding: 0.4em 1em;
+    border-radius: 20px;
+    color: white;
+}
+
+.category-benjamin .category-header {
+    background: #4CAF50;
+    color: white;
+}
+
+.category-benjamin .badge-count {
+    background-color: #388E3C;
+}
+
+.category-alevin .category-header {
+    background: #2196F3;
+    color: white;
+}
+
+.category-alevin .badge-count {
+    background-color: #1976D2;
+}
+
+.category-infantil .category-header {
+    background: #9C27B0;
+    color: white;
+}
+
+.category-infantil .badge-count {
+    background-color: #7B1FA2;
+}
+
+.category-cadete .category-header {
+    background: #FF9800;
+    color: white;
+}
+
+.category-cadete .badge-count {
+    background-color: #F57C00;
+}
+
+.category-absolute .category-header {
+    background: #F44336;
+    color: white;
+}
+
+.category-absolute .badge-count {
+    background-color: #D32F2F;
+}
+
+.players-table {
+    width: 100%;
+    margin: 0;
+}
+
+.players-table th {
+    background: #f8f9fa;
+    padding: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.players-table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+.players-table tr:last-child td {
+    border-bottom: none;
+}
+
+.players-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.players-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.player-name {
+    font-weight: 500;
+    color: #212529;
+}
+
+.player-license {
+    font-family: monospace;
+    color: #6c757d;
+}
+
+.player-contact {
+    display: flex;
+    gap: 1rem;
+}
+
+.player-contact a {
+    color: #6c757d;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.player-contact a:hover {
+    color: #0d6efd;
+}
+
+.player-notes {
+    color: #6c757d;
+    font-size: 0.9rem;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-action {
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    border: none;
+    background: none;
+    transition: all 0.2s;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+}
+
+.btn-action i {
+    font-size: 1rem;
+}
+
+/* Botón editar */
+.btn-action:has(.fa-edit) {
+    color: #0d6efd;
+}
+
+.btn-action:has(.fa-edit):hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Botón eliminar */
+.btn-action:has(.fa-trash-alt) {
+    color: #dc3545;
+}
+
+.btn-action:has(.fa-trash-alt):hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .players-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .players-header {
+        padding: 1.5rem;
+    }
+    
+    .category-header {
+        padding: 1rem;
+    }
+    
+    .players-table td,
+    .players-table th {
+        padding: 0.75rem;
+    }
+    
+    .player-contact {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .categories-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
+    .tournament-header {
+        padding: 1.5rem 0;
+    }
+
+    .tournament-title {
+        font-size: 2rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.category-card {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+.category-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.category-card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+/* Tooltips personalizados */
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.5rem 1rem;
+    background: rgba(44, 62, 80, 0.9);
+    color: white;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+[data-tooltip]:hover:before {
+    opacity: 1;
+    visibility: visible;
+    bottom: calc(100% + 5px);
+}
+
+/* Estilos de categorías */
+.category-section {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.category-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.category-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+}
+
+.category-header i {
+    font-size: 1.1rem;
+}
+
+.badge-count {
+    font-size: 0.9rem;
+    padding: 0.4em 1em;
+    border-radius: 20px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Benjamín */
+.category-benjamin .category-header {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+/* Alevín */
+.category-alevin .category-header {
+    background: linear-gradient(135deg, #2196F3, #1565C0);
+}
+
+/* Infantil */
+.category-infantil .category-header {
+    background: linear-gradient(135deg, #9C27B0, #6A1B9A);
+}
+
+/* Cadete */
+.category-cadete .category-header {
+    background: linear-gradient(135deg, #FF9800, #EF6C00);
+}
+
+/* Absoluto */
+.category-absolute .category-header {
+    background: linear-gradient(135deg, #F44336, #C62828);
+}
